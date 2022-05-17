@@ -1,48 +1,50 @@
-var app = new Vue({
+const app = new Vue({
 	el: '#app',
-	data() {
+	data() { //le modèle de données
+
 		return {
 			pizzas: [],
 			ingredients: [],
-			create :false,
+			create: false,
 			newPizza: {},
 			newIngredient: {}
 		}
 	},
-	mounted() {
-		axios.get('/admin/pizzas')
-		.then(response => {
-			this.pizzas = response.data.data;
-		});
-		
-		axios.get('/admin/ingredients')
-		.then(response => {
-			this.ingredients = response.data.data;
-		});						
+	mounted() { // Ce qui est affiché au chargement de la page
+		axios.get("/admin/pizzas")
+			.then(response => {
+				this.pizzas = response.data.data;
+			});
+		axios.get("/admin/ingredients")
+			.then(response => {
+				this.ingredients = response.data.data;
+			});
 	},
-	
-	methods: {
-		addIngredients()	{
-			if (!this.newPizza.ingedients){
+	methods: { // Methodes intéractives
+
+		addIngredients() {
+			if (!this.newPizza.ingredients) {
 				this.newPizza.ingredients = [];
 			}
-			this.newPizza.ingredients.push(this.newIngredient);
+			if (this.newIngredient !== "") {
+				this.newPizza.ingredients.push(this.newIngredient);
+			}
 			this.newIngredient = {};
 		},
-		createPizza(){
+
+		createPizza() {
 			axios.post('/admin/pizza/create', this.newPizza)
-			.then(response => {
-				if (response.data.success) {
-					this.newPizza = {};
-					this.newIngredient = {};
-					this.create = false;
-					
-					axios.get('/admin/pizzas')
-					.then(response => {
-					this.pizzas = response.data.data;
+				.then(response => {
+					if (response.data.success) {
+						this.newPizza = {};
+						this.newIngredient = {};
+						this.create = false;
+						axios.get("/admin/pizzas")
+							.then(response => {
+								this.pizzas = response.data.data;
+							});
+					}
 				});
-				}
-			})
 		}
 	}
 });

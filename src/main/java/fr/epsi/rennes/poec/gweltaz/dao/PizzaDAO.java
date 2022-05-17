@@ -1,9 +1,6 @@
 package fr.epsi.rennes.poec.gweltaz.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +25,7 @@ public class PizzaDAO {
 		String sql = "insert into pizza (label) values (?)";
 		try (
 			Connection conn = ds.getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql)) {
+			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 				ps.setString(1, label);		
 				ps.executeUpdate();
 				

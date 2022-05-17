@@ -30,7 +30,7 @@ public class IngredientDAO {
 				Ingredient ingredient = new Ingredient();
 				ingredient.setId(rs.getInt("id"));
 				ingredient.setLabel(rs.getString("label"));
-				ingredient.setNbCalories(rs.getInt("nbCalories"));
+				ingredient.setNbCalories(rs.getInt("nb_calories"));
 				ingredient.setPrice(rs.getDouble("prix"));
 				ingredient.setType(rs.getString("type"));
 				ingredients.add(ingredient);

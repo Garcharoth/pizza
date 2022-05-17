@@ -2,6 +2,8 @@ package fr.epsi.rennes.poec.gweltaz.controller;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,8 @@ import fr.epsi.rennes.poec.gweltaz.service.PizzaService;
 
 @RestController
 public class AdminController {
+
+	private static final Logger logger = LogManager.getLogger(AdminController.class);
 	
 	@Autowired
 	private PizzaService pizzaService;
@@ -38,6 +42,7 @@ public class AdminController {
 	
 	@PostMapping("/admin/pizza/create")
 	public Response<Void> createPizza(@RequestBody Pizza pizza) throws BusinessException{
+		logger.info("Création de pizza");
 		pizzaService.createPizza(pizza);
 		return new Response<>();
 	}
