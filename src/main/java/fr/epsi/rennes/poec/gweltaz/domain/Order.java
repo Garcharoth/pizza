@@ -9,11 +9,11 @@ public class Order {
 	private List<Pizza> pizzas;
 	private double HTPrice;
 	private double TTCPrice;
-	
-	
-	
+
+
+
 	///// GETTERS AND SETTERS /////
-	
+
 	public String getNumber() {
 		return number;
 	}

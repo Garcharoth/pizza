@@ -21,7 +21,7 @@ public class IngredientDAO {
 	private DataSource ds;
 	
 	public List<Ingredient> getAllIngredients(){
-		String sql ="select * from ingredient";
+		String sql ="select * from ingredients";
 		try (Connection conn = ds.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql)){
 			List<Ingredient> ingredients = new ArrayList<>();

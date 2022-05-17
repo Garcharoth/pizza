@@ -1,3 +1,4 @@
+console.log("aaaaaaaaaaaaaaaaaaaaa")
 var app = new Vue({
 	el: '#app',
 	data() {
@@ -9,6 +10,7 @@ var app = new Vue({
 	mounted() {
 		axios.get('/public/pizzas')
 		.then(response =>{
+			console.log(response.data)
 			this.pizzas = response.data.data;
 		});
 		

@@ -26,7 +26,7 @@ public class PanierDAO {
 	private DataSource ds;
 	
 	public void addPizza(Pizza pizza, int panierId) {
-		String sql = "insert into panier_pizza (panierId, pizzaId) values (?,?)";
+		String sql = "insert into panier_pizza (panier_id, pizza_id) values (?,?)";
 		try(Connection conn = ds.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql)){
 			ps.setInt(1, panierId);

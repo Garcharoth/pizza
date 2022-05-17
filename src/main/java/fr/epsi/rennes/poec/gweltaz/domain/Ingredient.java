@@ -43,10 +43,9 @@ public class Ingredient {
 	public void setNbCalories(int nbCalories) {
 		this.nbCalories = nbCalories;
 	}
-	
-	
-	
-	
-	
 
+
+    public void setPrix(double parseDouble) {
+		this.price=0;
+    }
 }

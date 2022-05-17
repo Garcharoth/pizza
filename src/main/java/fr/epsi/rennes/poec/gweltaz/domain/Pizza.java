@@ -45,8 +45,13 @@ public class Pizza {
 	public void setNbCalories(int nbCalories) {
 		this.nbCalories = nbCalories;
 	}
-	
-	
-	
 
+
+    public void setPrix() {
+		this.price=0;
+    }
+
+	public void setCalories() {
+		this.nbCalories=0;
+	}
 }
