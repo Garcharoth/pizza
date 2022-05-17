@@ -1,0 +1,107 @@
+package fr.epsi.rennes.poec.gweltaz.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import fr.epsi.rennes.poec.gweltaz.domain.Panier;
+import fr.epsi.rennes.poec.gweltaz.domain.Pizza;
+import fr.epsi.rennes.poec.gweltaz.exception.TechnicalException;
+
+@Repository
+public class PanierDAO {
+	
+	@Autowired
+	private DataSource ds;
+	
+	public void addPizza(Pizza pizza, int panierId) {
+		String sql = "insert into panier_pizza (panierId, pizzaId) values (?,?)";
+		try(Connection conn = ds.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setInt(1, panierId);
+			ps.setInt(2, pizza.getId());
+			ps.executeUpdate();
+		}catch(SQLException e) {
+			throw new TechnicalException(e);
+		}
+	}
+	
+	
+	
+	public boolean isPanierExists(int panierId) {
+		String sql = "select id from panier where id = ?";
+		try(Connection conn = ds.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setInt(1, panierId);
+			ResultSet rs = ps.executeQuery();
+			return rs.next();
+		}catch(SQLException e) {
+			throw new TechnicalException(e);
+		}
+	}
+	
+	public int createPanier() {
+		String sql = "insert into panier (date) values (?)";
+		try(Connection conn = ds.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+			String date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
+			ps.setString(1, date);
+			ps.executeUpdate();
+			
+			ResultSet rs = ps.getGeneratedKeys();
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
+			
+		}catch (SQLException e) {
+			throw new TechnicalException(e);
+		}
+		throw new TechnicalException(new SQLException("Panier creation error"));
+	}
+	
+	
+	
+	public Panier getPanierById(int panierId) {
+		String sql = "select panier.id as panierId, panier.date as panierDate, group_concat(pizza.id) as pizzas from panier "
+				+ "right join panier_pizza.panierId = pizza.id "
+				+ "left join pizza on panier_pizza.pizza.id "
+				+ "where panier.id = ?";
+		
+		try(Connection conn = ds.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setInt(1, panierId);
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				Panier panier = new Panier();
+				panier.setId(rs.getInt("panierId"));
+				
+				panier.setPizzas(new ArrayList<>());
+				String pizzas = rs.getString("pizzas");
+				
+				for(String pizzaId : pizzas.split("; ")) {
+					Pizza pizza = new Pizza();
+					pizza.setId(Integer.parseInt(pizzaId));
+					
+					panier.getPizzas().add(pizza);
+				}
+				return panier;
+			}
+			return null;
+		}catch (SQLException e) {
+			throw new TechnicalException(e);
+		}
+	}
+
+}
