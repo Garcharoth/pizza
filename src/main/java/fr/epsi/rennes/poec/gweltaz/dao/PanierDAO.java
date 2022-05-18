@@ -157,6 +157,18 @@ public class PanierDAO {
 	}
 
 	public void removePizza (int pizzaId, int panierId){
+		String sql = "delete from panier " +
+				"where id = ? ;";
+
+		try(Connection conn = ds.getConnection();
+		PreparedStatement ps = conn.prepareStatement(sql);){
+
+			ps.setInt(1, panierId);
+			ps.executeUpdate();
+
+		}catch (SQLException e){
+			throw new TechnicalException(e);
+		}
 
 	}
 

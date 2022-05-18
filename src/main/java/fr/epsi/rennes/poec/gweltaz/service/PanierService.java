@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import fr.epsi.rennes.poec.gweltaz.dao.PanierDAO;
 import fr.epsi.rennes.poec.gweltaz.domain.Panier;
 import fr.epsi.rennes.poec.gweltaz.domain.Pizza;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,10 +46,15 @@ public class PanierService {
 		return panier;
 	}
 
+	@Transactional
 	public void removePizza(Pizza pizza, int panierId){
 		panierDAO.removePizza(panierId, pizza.getId());
-		for(int i = 0; i < pizza.getIngredients().size(); i++){
-			
+		List<Pizza> pizzasDuPanier = 
+		boolean exists = panierDAO.isPanierExists(panierId);
+		if(exists) {
+			for (pizza:panierDAO) {
+
+			}
 		}
 	}
 }
