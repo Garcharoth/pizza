@@ -2,9 +2,7 @@ package fr.epsi.rennes.poec.gweltaz.dao;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -88,8 +86,8 @@ public class PizzaDAO {
 				pizza.setIngredients(ingredientsList);
 				pizza.setLabel(rs.getString("pizzaLabel"));
 				pizza.setId(rs.getInt("pizzaId"));
-				pizza.setPrix();
-				pizza.setCalories();
+				pizza.setPrice(pizza.getPrice());
+				pizza.setCalories(pizza.getNbCalories());
 				pizzas.add(pizza);
 			}
 			return pizzas;

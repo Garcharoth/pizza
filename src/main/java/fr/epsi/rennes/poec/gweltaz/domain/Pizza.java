@@ -1,7 +1,6 @@
 package fr.epsi.rennes.poec.gweltaz.domain;
 
 import java.util.List;
-import java.util.Map;
 
 public class Pizza {
 	
@@ -42,16 +41,7 @@ public class Pizza {
 	public int getNbCalories() {
 		return nbCalories;
 	}
-	public void setNbCalories(int nbCalories) {
-		this.nbCalories = nbCalories;
-	}
-
-
-    public void setPrix() {
-		this.price=0;
-    }
-
-	public void setCalories() {
-		this.nbCalories=0;
+	public void setCalories(int calories) {
+		this.nbCalories=calories;
 	}
 }
