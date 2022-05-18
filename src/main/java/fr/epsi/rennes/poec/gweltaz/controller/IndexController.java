@@ -45,4 +45,14 @@ public class IndexController {
 		return response;
 	}
 
+	@GetMapping("/public/panier")
+	public Response<Panier> getPanier(@RequestParam int panierId){
+		Panier panier = panierService.getPanierById(panierId);
+
+		Response<Panier> response = new Response<>();
+		response.setData(panier);
+
+		return response;
+	}
+
 }
