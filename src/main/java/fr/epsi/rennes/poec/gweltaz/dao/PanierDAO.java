@@ -156,4 +156,8 @@ public class PanierDAO {
 		}
 	}
 
+	public void removePizza (int pizzaId, int panierId){
+
+	}
+
 }

@@ -44,4 +44,11 @@ public class PanierService {
 		panier.setTotalPrice(prixTotal);
 		return panier;
 	}
+
+	public void removePizza(Pizza pizza, int panierId){
+		panierDAO.removePizza(panierId, pizza.getId());
+		for(int i = 0; i < pizza.getIngredients().size(); i++){
+			
+		}
+	}
 }
