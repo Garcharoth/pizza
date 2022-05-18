@@ -1,14 +1,18 @@
 package fr.epsi.rennes.poec.gweltaz.service;
 
+import fr.epsi.rennes.poec.gweltaz.domain.Ingredient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.epsi.rennes.poec.gweltaz.dao.PanierDAO;
 import fr.epsi.rennes.poec.gweltaz.domain.Panier;
 import fr.epsi.rennes.poec.gweltaz.domain.Pizza;
 
+import java.util.List;
+
 @Service
 public class PanierService {
-	
+	@Autowired
 	private PanierDAO panierDAO;
 	
 	public int addPizza(Pizza pizza, int panierId) {
@@ -21,7 +25,23 @@ public class PanierService {
 	}
 	
 	public Panier getPanierById(int panierId) {
-		return panierDAO.getPanierById(panierId);
+		Panier panier = panierDAO.getPanierById(panierId);
+		List<Pizza> pizzas = panier.getPizzas();
+		double prixTotal = 0;
+		for(int i = 0; i < pizzas.size(); i++){
+			double prixPizza = 0;
+			Pizza pizza = pizzas.get(i);
+			if (pizza.getIngredients()==null){
+				continue;
+			}
+			for (Ingredient ingredient : pizza.getIngredients()) {
+				double prixIngredient =  ingredient.getPrice();
+				prixPizza += prixIngredient;
+			}
+			pizza.setPrice(prixPizza);
+			prixTotal += prixPizza;
+		}
+		panier.setTotalPrice(prixTotal);
+		return panier;
 	}
-
 }
