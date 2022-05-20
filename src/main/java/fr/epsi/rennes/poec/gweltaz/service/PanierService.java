@@ -46,15 +46,17 @@ public class PanierService {
 		return panier;
 	}
 
-	@Transactional
-	public void removePizza(Pizza pizza, int panierId){
-		panierDAO.removePizza(panierId, pizza.getId());
-		List<Pizza> pizzasDuPanier = 
-		boolean exists = panierDAO.isPanierExists(panierId);
-		if(exists) {
-			for (pizza:panierDAO) {
-
-			}
-		}
-	}
+//	@Transactional
+//	public void removePizza(Pizza pizza, int panierId){
+//		panierDAO.removePizza(panierId, pizza.getId());
+//		boolean exists = panierDAO.isPanierExists(panierId);
+//		for (int i = 0; i < pizza.getIngredients().size(); i++){
+//
+//		}
+//		if(exists) {
+//			for (pizza:panierDAO) {
+//
+//			}
+//		}
+//	}
 }
